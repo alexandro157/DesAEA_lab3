@@ -13,7 +13,16 @@ class Program
 
     static void Main()
     {
+        List<Trabajador> trabajadores = ListarTrabajadoresListaObjetos();
+        foreach (var item in trabajadores)
+        {
+            Console.WriteLine(item.Id);
+            Console.WriteLine(item.Nombre);
+            Console.WriteLine(item.Apellido);
+            Console.WriteLine(item.Sueldo);
+            Console.WriteLine(item.FechaNacimiento);
 
+        }
     }
 
     //De forma desconectada
@@ -55,7 +64,7 @@ class Program
             connection.Open();
 
             // Consulta SQL para seleccionar datos
-            string query = "SELECT IdTrabajador,Nombre,Apellido,Sueldo,FechaNacimiento FROM Trabajadores1";
+            string query = "SELECT IdTrabajador,Nombre,Apellido,Sueldo,FechaNacimiento FROM Trabajadores";
 
             using (SqlCommand command = new SqlCommand(query, connection))
             {
@@ -70,11 +79,11 @@ class Program
 
                             trabajadores.Add(new Trabajador
                             {
-                                Id = (int)reader["IdEmpleado"],
+                                Id = (int)reader["IdTrabajador"],
                                 Nombre = reader["Nombre"].ToString(),
                                 Apellido = reader["Apellido"].ToString(),
-                                Sueldo = reader["Sueldo"].ToString(),
-                                FechaNacimiento = reader["FechaNacimiento"].ToString()
+                                Sueldo = Convert.ToDecimal(reader["Sueldo"]),
+                                FechaNacimiento = Convert.ToDateTime(reader["FechaNacimiento"]).Date
                             });
 
                         }
